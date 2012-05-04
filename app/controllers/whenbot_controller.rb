@@ -3,11 +3,11 @@ class WhenbotController < ApplicationController
   # /whenbot/:channel/:trigger/callback
   def callback
     
-    # ==== One-liner 13 ====
-    response = validate_response response
+    response = Task.handle_callback(params[:channel], params[:trigger], params, request.headers, request.body.read)
+    response = validate_response(response)
     
     if response[:head_only]
-      head response[:status]  # ==== One-liner 15 ====
+      head response[:status]
     else
       render response[:type] => response[:body], 
              :status => response[:status], 
@@ -24,7 +24,7 @@ class WhenbotController < ApplicationController
     response[:type]       ||= :json
     response[:headers]    ||= ''
     response[:body]       ||= 'Success'
-    # ==== One-liner 17 ====
+    response
   end
   
 

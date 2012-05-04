@@ -12,7 +12,7 @@ module Whenbot
   # autoload :Channel,   'whenbot/channel'
   # autoload :Trigger,   'whenbot/trigger'
 
-  # ==== One-liner 1 ====
+  mattr_accessor :channels
   @@channels = []
   
   #
@@ -22,7 +22,7 @@ module Whenbot
   def self.relay_callback(channel, trigger, triggers, url_params, headers, body)
     klass = build_class_constant(channel, trigger)
     if klass
-    	klass.callback(triggers, url_params, headers, body)
+      klass.callback(triggers, url_params, headers, body)
     else
       :error
     end
@@ -47,8 +47,7 @@ module Whenbot
   # Array values are strings. E.g. 'Developer'
   #
   def self.trigger_channels
-    trigger_channels_as_consts.collect { |channel| # ==== One-liner 6 ====
-    }
+    trigger_channels_as_consts.collect { |channel| channel.to_s.split('::').last }
   end
 
   #

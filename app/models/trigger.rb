@@ -1,12 +1,12 @@
 class Trigger < ActiveRecord::Base
-  # ==== One-liner 23 ====
+  scope :active, where(active: true)
     
-  # ==== One-liner 24 ====
-  # ==== One-liner 25 ====
-  # ==== One-liner 26 ====
-  # ==== One-liner 27 ====
-  # ==== One-liner 28 ====
-  # ==== One-liner 29 ====
+  serialize :parameters, Hash
+  serialize :match_data, Hash
+  serialize :extra_data, Hash
+  belongs_to :task
+  attr_accessible :channel, :trigger, :parameters, :active  
+  validates_presence_of :channel, :trigger, :parameters
   
   
   #
